@@ -1,14 +1,36 @@
-import { Text } from 'ink';
+import { Box, Text, useInput } from 'ink';
+import Spinner from 'ink-spinner';
 import React from 'react';
 
-type Props = {
-	name: string | undefined;
-};
+export default function App() {
 
-export default function App({name = 'Stranger'}: Props) {
+	useInput((input, key) => {
+		console.log(input, key.ctrl);
+
+		if(key.ctrl && input === 'c') {
+			process.exit(0);
+		}
+
+		if(input === 'a') {
+			localStorage.setItem('oi', 'oiii');
+		}
+
+		if(input === 's') {
+			const hello = localStorage.getItem('oi') || '';
+			console.log('hello', hello)
+		}
+	});
+
 	return (
-		<Text>
-			Some, <Text color="green">{name}</Text>
-		</Text>
+		<Box>
+			{/* <Text>
+				Some, <Text color="green">{name}</Text>
+			</Text> */}
+			
+			<Spinner type='dots2' />
+			<Text>
+				Loading
+			</Text>
+		</Box>
 	);
 }

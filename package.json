@@ -11,7 +11,8 @@
 		"build": "tsc",
 		"dev": "tsc --watch",
 		"test": "prettier --check . && xo && ava",
-		"version": "standard-version"
+		"version": "standard-version",
+		"push": "git push --follow-tags origin main"
 	},
 	"files": [
 		"dist"

@@ -1,32 +1,20 @@
 #!/usr/bin/env node
+import { program } from 'commander';
 import { render } from 'ink';
-import meow from 'meow';
 import React from 'react';
-import App from './app.js';
+import { CLIRouter } from './routes.js';
 
-const cli = meow(
-	`
-	Usage
-	  $ my-ink-cli [options] [commands]
+program.command('auth').description('Configura o token de autenticação para usar na API').argument('string');
 
-	Commands
-		auth <service> (spotify or musixmatch)
+program.parse();
 
-	Options
-		--name  Your name
+const commands = program.commands;
 
-	Examples
-	  $ my-ink-cli --name=Jane
-	  Hello, Jane
-`,
-	{
-		importMeta: import.meta,
-		flags: {
-			name: {
-				type: 'string',
-			},
-		},
-	},
-);
+const command = commands[0]?.name();
+const args = commands[0]?.args || [];
 
-render(<App name={cli.flags.name} />);
+if(!command) {
+    process.exit(0);
+}
+
+render(<CLIRouter command={command} args={args || []} />)
