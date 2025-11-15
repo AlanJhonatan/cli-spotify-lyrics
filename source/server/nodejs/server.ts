@@ -30,7 +30,7 @@ const server = http.createServer((req, res) => {
         } else if (code) {
             res.writeHead(200, { 'Content-Type': 'text/html' });
             res.end('<h1>Authorization Success !</h1><pYou may now close this window and back to the terminal.</p>');
-            
+
             console.log('✅ Verifier Code received successfully !');
             console.log('Received code:', code);
             console.log('Code Verifier:', codeVerifier);
@@ -47,9 +47,9 @@ const server = http.createServer((req, res) => {
 export const createServer = (callback: () => void) => {
     server.on('error', (err) => {
         console.error('❌ [HTTP] Server Error', err);
-        process.exit(1); 
+        process.exit(1);
     });
-    
+
     server.listen(PORT, '127.0.0.1', () => {
         callback();
     });
