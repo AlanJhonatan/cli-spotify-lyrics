@@ -6,7 +6,7 @@ export class HttpNodeServer implements IAuthServer {
 	private serverInstance: Server;
 	private serverPort: number | 8888;
 
-	private requestHandler: any;
+	private requestHandler: ((code: string) => void) | null = null;
 
 	constructor (
 		server: Server,
@@ -31,7 +31,7 @@ export class HttpNodeServer implements IAuthServer {
 				return;
 			}
 
-			const code = reqUrl.query['code'] || null;
+			const code = reqUrl.query['code'] as string || null;
 			if(this.requestHandler && code) {
 				this.requestHandler(code);
 			}
@@ -52,7 +52,7 @@ export class HttpNodeServer implements IAuthServer {
 		this.serverInstance.close();
 	}
 
-	onRequest(callback: any): void {
+	onRequest(callback: (code: string) => void): void {
 		this.requestHandler = callback;
 	}
 }
