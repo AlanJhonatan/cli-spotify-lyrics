@@ -1,6 +1,6 @@
 import http from 'node:http';
 import url from 'node:url';
-import { generatePKCE } from '../../services/spotify/pcke-config.js';
+import { generatePKCE } from '../../shared/pcke-config.js';
 
 process.loadEnvFile('.env');
 

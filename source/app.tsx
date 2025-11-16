@@ -10,15 +10,6 @@ export default function App() {
 		if(key.ctrl && input === 'c') {
 			process.exit(0);
 		}
-
-		if(input === 'a') {
-			localStorage.setItem('oi', 'oiii');
-		}
-
-		if(input === 's') {
-			const hello = localStorage.getItem('oi') || '';
-			console.log('hello', hello)
-		}
 	});
 
 	return (
@@ -26,7 +17,7 @@ export default function App() {
 			{/* <Text>
 				Some, <Text color="green">{name}</Text>
 			</Text> */}
-			
+
 			<Spinner type='dots2' />
 			<Text>
 				Loading

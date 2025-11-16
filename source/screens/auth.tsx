@@ -1,24 +1,19 @@
-import { Box, Text } from "ink";
+import { Box, Newline, Text, useInput } from "ink";
 import Link from "ink-link";
 import Spinner from "ink-spinner";
-import React, { useEffect, useState } from "react";
-import { SpotifyAccountService } from "../api/axios/spotify/config.js";
-import { createServer } from "../server/nodejs/server.js";
-import { generatePKCE } from "../services/spotify/pcke-config.js";
+import React from "react";
+import { useSpotifyAuth } from "../hooks/useSpotifyAuth.js";
 
 export function Auth() {
-    const [authorizationUrl, setAuthorizationUrl] = useState<string>('');
+	const { authenticationUrl } = useSpotifyAuth();
 
-    function StartAuth() {
-        const { codeChallenge } = generatePKCE();
-        const authUrl = SpotifyAccountService.authenticate(codeChallenge);
+	useInput((input, key) => {
+		console.log(input, key.ctrl);
 
-        setAuthorizationUrl(authUrl.toString());
-    }
-
-    useEffect(() => {
-        createServer(StartAuth);
-    }, []);
+		if(key.ctrl && input === 'c') {
+			process.exit(0);
+		}
+	});
 
     return (
         <Box display="flex" flexDirection="column" marginTop={2}>
@@ -28,17 +23,15 @@ export function Auth() {
             <Box>
                 <Text><Spinner type="dots" /> Starting Authorization...</Text>
             </Box>
-            <Box>
+            <Box display="flex" flexDirection="column">
                 <Text>
                     Access the spotify authorization page:
                 </Text>
-            </Box>
-
-            {authorizationUrl && <Box>
-                <Link url={authorizationUrl}>
-                    <Text underline>{authorizationUrl}</Text>
+                <Newline />
+				<Link url={authenticationUrl}>
+                    <Text underline>{authenticationUrl}</Text>
                 </Link>
-            </Box>}
+            </Box>
         </Box>
     )
 }
