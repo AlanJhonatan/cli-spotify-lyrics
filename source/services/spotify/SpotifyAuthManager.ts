@@ -1,3 +1,5 @@
+import EventEmitter from "node:events";
+import { SpotifyAuthEvents } from "../../factories/AppFactory.js";
 import { ISpotifyAuthManager } from "../ISpotifyAuthManager.js";
 
 export class SpotifyAuthManager implements ISpotifyAuthManager {
@@ -6,17 +8,20 @@ export class SpotifyAuthManager implements ISpotifyAuthManager {
 	private spotifyBaseURL = 'https://accounts.spotify.com';
 	private scope: string = 'user-read-currently-playing';
 
-	constructor(clientID: string, callbackUrl: string) {
+	private dispatcher: EventEmitter<SpotifyAuthEvents>;
+
+	constructor (
+		clientID: string,
+		callbackUrl: string,
+		dispatcher: EventEmitter<SpotifyAuthEvents>,
+	) {
 		this.clientID = clientID;
 		this.callbackUrl = callbackUrl;
+		this.dispatcher = dispatcher;
 	}
 
-	authCallback(code: string): any {
-		console.log('authorized with code:', code);
-
-		return {
-			code,
-		}
+	authCallback(code: string): void {
+		this.dispatcher.emit('auth:spotify:success', code);
 	}
 
 	generateLink(codeChallenge: string): string {
