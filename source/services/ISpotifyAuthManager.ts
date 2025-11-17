@@ -3,6 +3,6 @@ export interface AuthStatus {
 }
 
 export interface ISpotifyAuthManager {
-	authCallback(req: any, res: any): void
+	authCallback(code: string): void
 	generateLink(codeChallenge: string): string
 }
