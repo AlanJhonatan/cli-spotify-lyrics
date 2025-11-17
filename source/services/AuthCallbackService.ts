@@ -6,7 +6,6 @@ export class AuthCallbackService {
 	private server: IAuthServer;
 	private authManager: ISpotifyAuthManager;
 	private codeChallenge: string;
-	private codeVerifier: string;
 	private authUrl: string;
 
 	constructor(
@@ -16,11 +15,9 @@ export class AuthCallbackService {
 		this.server = httpServer;
 		this.authManager = spotifyAuth;
 
-		const { codeChallenge, codeVerifier } = generatePKCE();
+		const { codeChallenge } = generatePKCE();
 		this.codeChallenge = codeChallenge;
-		this.codeVerifier = codeVerifier;
 
-		console.log('code verifier', this.codeVerifier);
 		this.authUrl = this.authManager.generateLink(this.codeChallenge);
 	}
 
